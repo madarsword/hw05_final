@@ -94,6 +94,7 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id)
     return render(request, template, context)
 
+
 @login_required
 def add_comment(request, post_id):
     form = CommentForm(request.POST or None)
@@ -103,6 +104,7 @@ def add_comment(request, post_id):
         comment.post = get_object_or_404(Post, pk=post_id)
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
 
 @login_required
 def follow_index(request):
@@ -116,6 +118,7 @@ def follow_index(request):
     }
     return render(request, template, context)
 
+
 @login_required
 def profile_follow(request, username):
     follow_author = get_object_or_404(User, username=username)
@@ -128,6 +131,7 @@ def profile_follow(request, username):
         )
     return redirect('posts:profile', username)
 
+
 @login_required
 def profile_unfollow(request, username):
     follow_author = get_object_or_404(User, username=username)
@@ -135,11 +139,13 @@ def profile_unfollow(request, username):
     data_follow.delete() if data_follow.exists() else None
     return redirect('posts:profile', username)
 
+
 @login_required
 def post_delete(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post.delete() if post.author == request.user else None
     return redirect('posts:profile', post.author.username)
+
 
 @login_required
 def comment_delete(request, comment_id):
