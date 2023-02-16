@@ -43,7 +43,7 @@ class PostModelTest(TestCase):
         for field, expected_value in field_verboses.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    self.post._meta.get_field(field).verbose_name, expected_value
+                    post._meta.get_field(field).verbose_name, expected_value
                 )
 
     def test_models_have_help_text(self):
@@ -56,5 +56,5 @@ class PostModelTest(TestCase):
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):
                 self.assertEqual(
-                    self.post._meta.get_field(field).help_text, expected_value
+                    post._meta.get_field(field).help_text, expected_value
                 )
