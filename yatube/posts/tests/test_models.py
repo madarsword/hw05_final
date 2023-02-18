@@ -14,7 +14,7 @@ class PostModelTest(TestCase):
         cls.user = User.objects.create_user(username='auth')
         cls.post = Post.objects.create(
             author=cls.user,
-            text=('Тестовый пост для проверки, '
+            text=('Тестовый текст для проверки, '
                   'больше ли пятнадцати символов строка'),
         )
         cls.group = Group.objects.create(
@@ -51,7 +51,7 @@ class PostModelTest(TestCase):
         post = PostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
-            'group': 'Группа, к которой будет относиться пост'
+            'group': 'Выберите группу'
         }
         for field, expected_value in field_help_texts.items():
             with self.subTest(field=field):
