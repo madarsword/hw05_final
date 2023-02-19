@@ -29,6 +29,11 @@ class PostFormsTest(TestCase):
             description='Тестовое описание группы',
             slug='test-slug',
         )
+        cls.group_new = Group.objects.create(
+            title='Тестовое название новой группы',
+            description='Тестовое описание новой группы',
+            slug='test-new-slug',
+        )
         cls.post = Post.objects.create(
             text='Тестовый пост',
             group=cls.group,
@@ -98,7 +103,7 @@ class PostFormsTest(TestCase):
         )
         form_data = {
             'text': 'Текст нового тестового поста, редактируем...',
-            'group': self.group.pk,
+            'group': self.group_new.pk,
             'image': uploaded
         }
         response = self.authorized_client.post(
@@ -107,11 +112,19 @@ class PostFormsTest(TestCase):
             follow=True,
         )
         post = Post.objects.get(pk=self.post.pk)
+        old_group_response = self.authorized_client.get(
+            reverse('posts:group_list', args=(self.group.slug,))
+        )
+        new_group_response = self.authorized_client.get(
+            reverse('posts:group_list', args=(self.group_new.slug,))
+        )
         self.assertRedirects(response, reverse(
             'posts:post_detail', kwargs={'post_id': self.post.pk})
         )
         self.assertEqual(post.text, form_data['text'])
         self.assertEqual(post.group.pk, form_data['group'])
+        self.assertEqual(old_group_response.context['page_obj'].paginator.count, 0)
+        self.assertEqual(new_group_response.context['page_obj'].paginator.count, 1)
 
     def test_create_comment(self):
         """Валидная форма создает запись в Comment."""

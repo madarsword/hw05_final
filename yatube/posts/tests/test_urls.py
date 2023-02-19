@@ -15,10 +15,10 @@ class PostURLTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(
-            username="test_user"
+            username='test_user'
         )
         cls.author = User.objects.create_user(
-            username="test_author"
+            username='test_author'
         )
         cls.group = Group.objects.create(
             title='Тестовая группа',
