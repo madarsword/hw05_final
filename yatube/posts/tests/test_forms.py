@@ -123,8 +123,12 @@ class PostFormsTest(TestCase):
         )
         self.assertEqual(post.text, form_data['text'])
         self.assertEqual(post.group.pk, form_data['group'])
-        self.assertEqual(old_group_response.context['page_obj'].paginator.count, 0)
-        self.assertEqual(new_group_response.context['page_obj'].paginator.count, 1)
+        self.assertEqual(
+            old_group_response.context['page_obj'].paginator.count, 0
+        )
+        self.assertEqual(
+            new_group_response.context['page_obj'].paginator.count, 1
+        )
 
     def test_create_comment(self):
         """Валидная форма создает запись в Comment."""
